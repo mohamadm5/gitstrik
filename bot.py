@@ -236,9 +236,9 @@ class Main:
     def decrypt(self):
         ...   
         
-    def upload(self,directory,object_guid):
+    def upload(self,https://github.com/mohamadm5/gitstrik/edit/main/bot.py,object_guid):
         try:
-            with open(directory,"rb+") as file:
+            with open(https://github.com/mohamadm5/gitstrik,"rb+") as file:
                 self.method.sendFile(file.name,object_guid,str(file.name).split("\\")[-1],len(file.read()),str(file.name).split(".")[-1],str(file.name).split("\\")[-1])
         except Exception as error:self.method.sendMessage(self.myGuid,str(error));console.log(error)
         
