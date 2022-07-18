@@ -50,7 +50,7 @@ def hasInsult(msg):
 	return swData
 
 def hasAds(msg):
-	links = list(map(lambda ID: ID.strip()[1:],findall("@[\w|_|\d]+", msg))) + list(map(lambda link:link.split("/")[-1],findall("rubika\.ir/\w+",msg)))
+	links = list(map(lambda ID: ID.strip()[1:],findall("+=%_|<>{}[]\)(*&^/$#@!`~-:;,?.‌ریال €£■□●○•°~》《¤…№√¿↯✉▓▒░█±∞↻⇦⇧⇩⇨⌛♢♤♧♡〇➣✖ツ✔☆★ベプビじじｼジシッツヅペヘヘ∅⊥Γδζξφ∂∫ω≡ελ⅞⅝⅜¾⅔⅔⅛⅓½ⁿ≤≤≈Ω∑¶¶µθρβα﷽ﷺۗﷴؕ", msg))) + list(map(lambda link:link.split("/")[-1],findall("rubika\.ir/\w+",msg)))
 	joincORjoing = "joing" in msg or "joinc" in msg
 
 	if joincORjoing: return joincORjoing
@@ -271,6 +271,21 @@ def search(text,chat,bot):
 def p_danesh(text,chat,bot):
     try:
         res = requests.get('http://api.codebazan.ir/danestani/pic/')
+        if res.status_code == 200 and res.content != b'':
+            b2 = res.content
+            width, height = bot.getImageSize(b2)
+            tx = bot.requestFile('jok_'+ str(random.randint(1000000, 9999999)) + '.png', len(b2), 'png')
+            access = bot.fileUpload(b2, tx['access_hash_send'], tx['id'], tx['upload_url'])
+            bot.sendImage(chat['object_guid'] ,tx['id'] , 'png', tx['dc_id'] , access, 'jok_'+ str(random.randint(1000000, 9999999)) + '.png', len(b2), str(bot.getThumbInline(b2))[2:-1] , width, height, message_id=chat['last_message']['message_id'])
+            print('sended file')                       
+        return True
+    except:
+        print('code bz danesh api bug')
+        return False
+
+def p_fal(text,chat,bot):
+    try:
+        res = requests.get('http://dni.dsub.xyz/fal.php')
         if res.status_code == 200 and res.content != b'':
             b2 = res.content
             width, height = bot.getImageSize(b2)
@@ -1157,6 +1172,9 @@ while(2 > 1):
                                 tawd6.start()
                             elif text.startswith('/danpic'):
                                 tawd12 = Thread(target=p_danesh, args=(text, chat, bot,))
+                                tawd12.start()
+                            elif text.startswith('/fal'):
+                                tawd12 = Thread(target=p_fal, args=(text, chat, bot,))
                                 tawd12.start()
                             elif text.startswith('!write ['):
                                 print('mpa started')
